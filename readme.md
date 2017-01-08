@@ -8,4 +8,4 @@ Extension to Log BlueKai Calls
 ## Instructions ##
 
 - Download [Chrome Extension](BlueKai%20Debugger.crx) (Right-Click "Save Link As...")
-- Go to [chrome://extensions/](chrome://extensions/)
+- Copy and Paste to ["chrome://extensions/""](http://extensions/) in your browser window
