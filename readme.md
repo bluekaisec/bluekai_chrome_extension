@@ -13,3 +13,4 @@ Extension to Log BlueKai Calls
 
 ![alt tag](https://s24.postimg.org/63f33c0px/Screen_Shot_2017_01_08_at_22_10_39.png)
 
+- You're installed now!
