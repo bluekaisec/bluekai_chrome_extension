@@ -14,3 +14,9 @@ Extension to Log BlueKai Calls
 ![alt tag](https://s24.postimg.org/63f33c0px/Screen_Shot_2017_01_08_at_22_10_39.png)
 
 - You're installed now!
+
+## Versioning ##
+
+### "0.13" ###
+
+- Initial version with only lists of calls and counts of phints
