@@ -1,16 +1,23 @@
 {
-  "manifest_version": 2,
-
-  "name": "Getting started example",
-  "description": "This extension shows a Google Image search result for the current page",
-  "version": "1.0",
-
-  "browser_action": {
-    "default_icon": "icon.png",
-    "default_popup": "popup.html"
-  },
+  "name": "BlueKai Chrome Debugger",
+  "version": "0.11",
+  "minimum_chrome_version": "10.0",
+  "description": "This extension will allow you to monitor BlueKai calls to your browser",
+  "devtools_page": "devtools.html",
+  "options_page": "panel.html",
+  "background": { "scripts": ["js/background.js"] },
   "permissions": [
-    "activeTab",
-    "https://ajax.googleapis.com/"
-  ]
+    "http://*/*",
+    "https://*/*"
+  ],
+  "manifest_version": 2,
+  "icons": { "16": "images/icon16.png",
+           "48": "images/icon48.png",
+          "128": "images/icon128.png" 
+          },
+  "browser_action": {
+    "default_icon": "images/icon.png"//,
+    //"default_popup": "popup.html"
+  }        
+
 }
