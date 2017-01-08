@@ -79,9 +79,9 @@ chrome.devtools.network.onRequestFinished.addListener(function(request) {
 			}
 
 			var cell = document.createElement("td");
-			if(type === "badge"){
+			if(type === "phints"){
 
-				cell.innerHTML = '<span><a href="javascript: void(0)">Show Phints</a> <span class="badge">' + cell_value + '</span></span>';
+				cell.innerHTML = '<span><a href="javascript: void(0)">Show Phints</a> <span class="badge">' + cell_value.length + '</span></span>';
 
 			} else {
 
@@ -98,9 +98,9 @@ chrome.devtools.network.onRequestFinished.addListener(function(request) {
 		cell_adder(site_id);
 		cell_adder(ret_type);
 		cell_adder(limit_number);
-		cell_adder(phints_reserved.length,"badge");
-		cell_adder(phints_custom.length,"badge");
-		
+		cell_adder(phints_reserved,"phints");
+		cell_adder(phints_custom,"phints");
+
 					
 		// Add row to table							
 		ElementToAdd = window.document.getElementById('table_rows').appendChild(row.row);				
