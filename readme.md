@@ -1,4 +1,4 @@
-# bluekai_chrome_extension
+# BlueKai Debugger
 Extension to Log BlueKai Calls
 
 ## Example ##
