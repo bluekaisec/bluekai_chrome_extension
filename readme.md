@@ -17,6 +17,6 @@ Extension to Log BlueKai Calls
 
 ## Versioning ##
 
-### "0.13" ###
+### 0.13 ###
 
 - Initial version with only lists of calls and counts of phints
