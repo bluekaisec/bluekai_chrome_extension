@@ -7,5 +7,5 @@ Extension to Log BlueKai Calls
 
 ## Instructions ##
 
-- Download [Chrome Extension](BlueKai%20Debugger.crx)
-- Install as a developer extension as per https://developer.chrome.com/extensions/getstarted#unpacked (yet to submit this as a full extension)
+- Download [Chrome Extension](BlueKai%20Debugger.crx) (Right-Click "Save Link As...")
+- Go to [chrome://extensions/](chrome://extensions/)
