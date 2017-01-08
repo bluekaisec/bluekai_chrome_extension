@@ -13,6 +13,8 @@ chrome.devtools.network.onRequestFinished.addListener(function(request) {
 		var row = {};
 		var phints_custom = [];
 		var phints_reserved = [];
+		var phint_count_reserved = 0;
+		var phint_count_custom = 0;
 		var ret_type = "not set";
 		var limit_number = "not set";
 		var site_id = "not set";
@@ -47,7 +49,9 @@ chrome.devtools.network.onRequestFinished.addListener(function(request) {
 				}
 
 				else {phints_custom.push(phint_object);} // push into custom array
-							
+			
+				// Phint count
+
 			}
 
 			// RET TYPE HANDLER
@@ -65,9 +69,9 @@ chrome.devtools.network.onRequestFinished.addListener(function(request) {
 			}
 
 		}		
-
+				
 		// FUNCTION : Add row
-		var cell_adder = function(cell_value){
+		var cell_adder = function(cell_value,type){
 
 			// Create if not existing
 			if(typeof row.row === "undefined"){
@@ -75,7 +79,16 @@ chrome.devtools.network.onRequestFinished.addListener(function(request) {
 			}
 
 			var cell = document.createElement("td");
-			cell.innerHTML = cell_value;		
+			if(type === "badge"){
+
+				cell.innerHTML = '<span><a href="javascript: void(0)">Show Phints</a> <span class="badge">' + cell_value + '</span></span>';
+
+			} else {
+
+				cell.innerHTML = cell_value;		
+			}
+			
+			
 			row.row.appendChild(cell);
 
 		}
@@ -85,6 +98,9 @@ chrome.devtools.network.onRequestFinished.addListener(function(request) {
 		cell_adder(site_id);
 		cell_adder(ret_type);
 		cell_adder(limit_number);
+		cell_adder(phints_reserved.length,"badge");
+		cell_adder(phints_custom.length,"badge");
+		
 					
 		// Add row to table							
 		ElementToAdd = window.document.getElementById('table_rows').appendChild(row.row);				
