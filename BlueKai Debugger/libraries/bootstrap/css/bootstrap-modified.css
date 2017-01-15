@@ -1603,10 +1603,11 @@ pre code {
   }
 }
 .container-fluid {
-  padding-right: 15px;
-  padding-left: 15px;
+  //padding-right: 15px; // roshan customised
+  //padding-left: 15px; // roshan customised
   margin-right: auto;
   margin-left: auto;
+  padding : 7px; // roshan customised
 }
 .row {
   margin-right: -15px;
@@ -5661,6 +5662,7 @@ button.list-group-item-danger.active:focus {
 }
 .panel-group {
   margin-bottom: 20px;
+  padding-top: 55px; // roshan customised
 }
 .panel-group .panel {
   margin-bottom: 0;

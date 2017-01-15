@@ -61,6 +61,18 @@ function log_filter(filter_element) {
 	})
 }
 
+// FUNCTION : Log Clear
+
+/*
+Clear all logs
+*/
+
+function clear_logs() {
+
+	jQuery("#request-table").empty();
+	window.request_number = 0;
+
+}
 
 
 // FUNCTION : Insert After
@@ -87,6 +99,11 @@ function insertAfter(newElement, targetElement) {
 // LOG FILTER : ADD EVENT LISTENER TO ALLOW FILTER
 jQuery('#log_filter').keyup(function() {
 	log_filter(this);
+})
+
+// LOG FILTER : ADD EVENT LISTENER TO ALLOW FILTER
+jQuery('#log-clear').mousedown(function() {
+	clear_logs();
 })
 
 // CONFIG
@@ -167,14 +184,14 @@ chrome.devtools.network.onRequestFinished.addListener(function(request) {
 				if (phint_object.name.indexOf("__bk_") > -1) {
 
 					// Add useful hints to reserved vars
-					if(phint_object.name === "__bk_l"){
+					if (phint_object.name === "__bk_l") {
 						phint_object.name = "__bk_l (URL)"
-					} else if(phint_object.name === "__bk_pr"){
-						phint_object.name = "__bk_pr (Page Referrer)"					
-					} else if(phint_object.name === "__bk_t"){
-						phint_object.name = "__bk_t (Page Title)"					
-					} else if(phint_object.name === "__bk_k"){
-						phint_object.name = "__bk_k (Meta Keywords)"					
+					} else if (phint_object.name === "__bk_pr") {
+						phint_object.name = "__bk_pr (Page Referrer)"
+					} else if (phint_object.name === "__bk_t") {
+						phint_object.name = "__bk_t (Page Title)"
+					} else if (phint_object.name === "__bk_k") {
+						phint_object.name = "__bk_k (Meta Keywords)"
 					}
 
 
@@ -290,21 +307,25 @@ chrome.devtools.network.onRequestFinished.addListener(function(request) {
 
 		span_phints_default = document.createElement("span"); // Phints : Default
 
-		if(phints_default_count){
+		if (phints_default_count) {
 
 			jQuery(span_phints_default).html("Phints (Default) <span class='badge btn-success'>" + phints_default_count + "</span>");
 
-		} else {jQuery(span_phints_default).html("Phints (Default) <span class='badge'>" + phints_default_count + "</span>");}
+		} else {
+			jQuery(span_phints_default).html("Phints (Default) <span class='badge'>" + phints_default_count + "</span>");
+		}
 
 		jQuery(panel_title).append(span_phints_default);
 		divider_creator("span_divider", panel_title);
 
 		span_phints_custom = document.createElement("span"); // Phints : Custom
-		if(phints_custom_count){
+		if (phints_custom_count) {
 
 			jQuery(span_phints_custom).html("Phints (Custom) <span class='badge btn-success'>" + phints_custom_count + "</span>");
-			
-		} else {jQuery(span_phints_custom).html("Phints (Custom) <span class='badge'>" + phints_custom_count + "</span>");}
+
+		} else {
+			jQuery(span_phints_custom).html("Phints (Custom) <span class='badge'>" + phints_custom_count + "</span>");
+		}
 
 		jQuery(panel_title).append(span_phints_custom);
 		divider_creator("span_divider", panel_title);
@@ -317,65 +338,118 @@ chrome.devtools.network.onRequestFinished.addListener(function(request) {
 		jQuery(panel_bottom).attr("id", "collapse" + log_id);
 		jQuery(parent_div).append(panel_bottom); // add to above
 
-		// Add phint table (if required)
-		if (phint_table_required) {
+		// Add request URL
+		default_table = document.createElement('table'); // Create default Table
+		jQuery(default_table).addClass("table table-striped table-bordered");
+		jQuery(default_table).attr("cellspacing", "0");
+		jQuery(default_table).attr("width", "100%");
+		jQuery(panel_bottom).append(default_table); // add to above
 
-			phint_table = document.createElement('table'); // Create Phint Table
-			jQuery(phint_table).addClass("table table-striped table-bordered");
-			jQuery(phint_table).attr("cellspacing", "0");
-			jQuery(phint_table).attr("width", "100%");
-			jQuery(panel_bottom).append(phint_table); // add to above
+		default_table_head = document.createElement('thead'); // Create table head
+		jQuery(default_table).append(default_table_head); // add to above
 
-			phint_table_head = document.createElement('thead'); // Create table head
-			jQuery(phint_table).append(phint_table_head); // add to above
+		default_table_head_row = document.createElement('tr'); // Create table column row
+		jQuery(default_table_head).append(default_table_head_row); // add to above
 
-			phint_table_head_row = document.createElement('tr'); // Create table column row
-			jQuery(phint_table_head).append(phint_table_head_row); // add to above
+		default_table_head_default_name = document.createElement('th'); // Create table columns
+		jQuery(default_table_head_default_name).html("What?");
+		jQuery(default_table_head_row).append(default_table_head_default_name); // add to above
 
-			phint_table_head_phint_name = document.createElement('th'); // Create table columns
-			jQuery(phint_table_head_phint_name).html("Phint Name");
-			jQuery(phint_table_head_row).append(phint_table_head_phint_name); // add to above
+		default_table_head_default_value = document.createElement('th'); // Create table columns
+		jQuery(default_table_head_default_value).html("Value");
+		jQuery(default_table_head_row).append(default_table_head_default_value); // add to above
 
-			phint_table_head_phint_value = document.createElement('th'); // Create table columns
-			jQuery(phint_table_head_phint_value).html("Phint Value");
-			jQuery(phint_table_head_row).append(phint_table_head_phint_value); // add to above
+		default_table_body = document.createElement('tbody'); // Create table body
+		jQuery(default_table).append(default_table_body); // add to above
 
-			phint_table_body = document.createElement('tbody'); // Create table body
-			jQuery(phint_table).append(phint_table_body); // add to above
+		// FUNCTION : Generate standard var table
+		var default_generator = function(default_name, default_value, append_to_object, link_flag) {
 
-			// FUNCTION : Phint generator	
+			var row = document.createElement('tr'); // Create row
 
-			// Loop through default phints and create rows
-			var phint_generator = function(phint_data, append_to_object, phint_type) {
+			jQuery(append_to_object).append(row); // add to above
 
-				for (var i = 0; i < phint_data.length; i++) {
-					
-					var phint_name = phint_data[i].name;
-					var phint_value = phint_data[i].value;
-					
-					var row = document.createElement('tr'); // Create row
-					if (phint_type === "default") {
-						jQuery(row).addClass("warning");
-					}
-					jQuery(append_to_object).append(row); // add to above
+			var name = document.createElement('td'); // Create phint name cell
+			jQuery(name).html(default_name);
+			jQuery(row).append(name); // add to above
 
-					var name = document.createElement('td'); // Create phint name cell
-					jQuery(name).html(phint_name);
-					jQuery(row).append(name); // add to above
+			var value = document.createElement('td'); // Create phint value cell
 
-					var value = document.createElement('td'); // Create phint value cell
-					jQuery(value).html(phint_value);
-					jQuery(row).append(value); // add to above
+			if (link_flag) {
 
-				}
+				jQuery(value).html("<a target='_blank' href='" + default_value + "'>" + default_value + "</a>");
+
+			} else {
+				jQuery(value).html(default_value);
 			}
 
-			// Add phint rows
-			phint_generator(phints_default, phint_table_body, "default");
-			phint_generator(phints_custom, phint_table_body, "custom");
+			jQuery(row).append(value); // add to above
 
 		}
 
+		default_generator("Request URL", bkurl, default_table_body,true);
+	//}
+
+
+	// Add phint table (if required)
+	if (phint_table_required) {
+
+		phint_table = document.createElement('table'); // Create Phint Table
+		jQuery(phint_table).addClass("table table-striped table-bordered");
+		jQuery(phint_table).attr("cellspacing", "0");
+		jQuery(phint_table).attr("width", "100%");
+		jQuery(panel_bottom).append(phint_table); // add to above
+
+		phint_table_head = document.createElement('thead'); // Create table head
+		jQuery(phint_table).append(phint_table_head); // add to above
+
+		phint_table_head_row = document.createElement('tr'); // Create table column row
+		jQuery(phint_table_head).append(phint_table_head_row); // add to above
+
+		phint_table_head_phint_name = document.createElement('th'); // Create table columns
+		jQuery(phint_table_head_phint_name).html("Phint Name");
+		jQuery(phint_table_head_row).append(phint_table_head_phint_name); // add to above
+
+		phint_table_head_phint_value = document.createElement('th'); // Create table columns
+		jQuery(phint_table_head_phint_value).html("Phint Value");
+		jQuery(phint_table_head_row).append(phint_table_head_phint_value); // add to above
+
+		phint_table_body = document.createElement('tbody'); // Create table body
+		jQuery(phint_table).append(phint_table_body); // add to above
+
+		// FUNCTION : Phint generator	
+
+		// Loop through default phints and create rows
+		var phint_generator = function(phint_data, append_to_object, phint_type) {
+
+			for (var i = 0; i < phint_data.length; i++) {
+
+				var phint_name = phint_data[i].name;
+				var phint_value = phint_data[i].value;
+
+				var row = document.createElement('tr'); // Create row
+				if (phint_type === "default") {
+					jQuery(row).addClass("warning");
+				}
+				jQuery(append_to_object).append(row); // add to above
+
+				var name = document.createElement('td'); // Create phint name cell
+				jQuery(name).html(phint_name);
+				jQuery(row).append(name); // add to above
+
+				var value = document.createElement('td'); // Create phint value cell
+				jQuery(value).html(phint_value);
+				jQuery(row).append(value); // add to above
+
+			}
+		}
+
+		// Add phint rows
+		phint_generator(phints_default, phint_table_body, "default");
+		phint_generator(phints_custom, phint_table_body, "custom");
+
 	}
+
+}
 
 });

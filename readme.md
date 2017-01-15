@@ -1,9 +1,9 @@
 # BlueKai Debugger
 Extension to Log BlueKai Calls
 
-## Example ##
+## Screenshot ##
 
-![alt tag](https://s28.postimg.org/j13ql16fx/Screen_Shot_2017_01_15_at_17_42_53.png)
+![alt tag](https://s24.postimg.org/5w8b55q5x/Screen_Shot_2017_01_15_at_22_04_38.png)
 
 ## Instructions ##
 
@@ -30,6 +30,14 @@ Extension to Log BlueKai Calls
 
 ## Versioning ##
 
+### 0.16 ###
+
+- Added Log Clearer
+- Added full request URL
+- Added CSS fixes
+- Still requires:
+	- Green Button hover fix
+	
 ### 0.15 ###
 
 - Redesign to switch to panel method and filtering
