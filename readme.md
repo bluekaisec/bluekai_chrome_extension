@@ -15,7 +15,8 @@ Extension to Log BlueKai Calls
 
 ### Alternatively ###
 
-
+- Turn on [Developer Mode](BlueKai%20Debugger) in your Chrome Browser 
+- Download [BlueKai Debugger Folder](BlueKai%20Debugger)
 
 
 
