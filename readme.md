@@ -7,27 +7,28 @@ Extension to Log BlueKai Calls
 
 ## Instructions ##
 
+### Easy Install ###
+
 - Download [Chrome Extension](BlueKai%20Debugger.crx) (Right-Click "Save Link As...")
 - Copy and Paste to ["chrome://extensions/"](chrome://extensions//) in your browser window
 - Drag the "BlueKai Debugger.crx" into the window and install:
 
 ![alt tag](https://s24.postimg.org/63f33c0px/Screen_Shot_2017_01_08_at_22_10_39.png)
 
-### Alternatively ###
+- You're installed now!
 
-- Turn on [Developer Mode](BlueKai%20Debugger) in your Chrome Browser 
+### Developer Install (if the above doesn't work) ###
+
+- Turn on [Developer Mode](https://developer.chrome.com/extensions/faq#faq-dev-01) in your Chrome Browser 
 - Download [BlueKai Debugger Folder](BlueKai%20Debugger)
+- Open ["chrome://extensions/"](chrome://extensions//) in your browser window
+- Drag and drop the "BlueKai Debugger" Folder into the extensions
 
-
+![alt tag](https://s30.postimg.org/snsyizc9d/Screen_Shot_2017_01_15_at_17_49_57.png)
 
 - You're installed now!
 
 ## Versioning ##
-
-### 0.13 ###
-
-- Initial version with only lists of calls and counts of phints
-
 
 ### 0.15 ###
 
@@ -35,3 +36,9 @@ Extension to Log BlueKai Calls
 - Still requires:
 	- CSS fixes
 	- Clear Button
+
+### 0.13 ###
+
+- Initial version with only lists of calls and counts of phints
+
+
