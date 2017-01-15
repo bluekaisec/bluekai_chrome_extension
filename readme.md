@@ -36,6 +36,7 @@ Extension to Log BlueKai Calls
 - Still requires:
 	- CSS fixes
 	- Clear Button
+	- Full request URL to be added
 
 ### 0.13 ###
 
