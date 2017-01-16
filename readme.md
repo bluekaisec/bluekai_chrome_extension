@@ -30,7 +30,7 @@ Extension to Log BlueKai Calls
 
 ## Issue Logging ##
 
-If you see any issues with this please log an ["issue "](https://github.com/bluekaisec/bluekai_chrome_extension/issues) in this repo and I will add to it (this includes enhancements)
+If you see any issues with this please log an ["issue"](https://github.com/bluekaisec/bluekai_chrome_extension/issues) in this repo and I will add to it (this includes enhancements)
 
 ## Versioning ##
 
