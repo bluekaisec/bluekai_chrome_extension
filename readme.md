@@ -1,5 +1,7 @@
-# BlueKai Debugger
+# Unofficial BlueKai Debugger
 Extension to Log BlueKai Calls
+
+Available in [Chrome Web Store](https://chrome.google.com/webstore/detail/unofficial-bluekai-debugg/bgelefkbpjoagjgcefpboeobpepncpan)
 
 ## Screenshot ##
 
