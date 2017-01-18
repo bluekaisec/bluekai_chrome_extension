@@ -34,6 +34,24 @@ If you see any issues with this please log an ["issue"](https://github.com/bluek
 
 ## Versioning ##
 
+### 1.1 ###
+
+- Fixed filter issue
+
+### 1.0 ###
+
+- Removed options page
+
+### 0.18 ###
+
+- SUBMITTED TO CHROME STORE
+- Allowing filtering by both encoded and decoded URL
+- Adding Google Analytics tracking to monitor usage
+
+### 0.17 ###
+
+- Adding update to monitor requests from https://stags.bluekai.com
+
 ### 0.16 ###
 
 - Added Log Clearer

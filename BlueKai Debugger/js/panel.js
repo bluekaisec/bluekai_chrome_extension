@@ -1,4 +1,28 @@
 /*
+#################################################
+### TRACKING : Google Analytics Tracking Code ###
+#################################################
+*/
+
+// Standard Google Universal Analytics code
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga'); // Note: https protocol here
+
+ga('create', 'UA-90569841-1', 'auto');
+
+ga('set', 'checkProtocolTask', function(){}); // Removes failing protocol check. @see: http://stackoverflow.com/a/22152353/1958200
+
+ga('require', 'displayfeatures');
+
+ga('send', 'pageview', '/viewing_bluekai_debugger_extension_tab');
+
+/*
 #####################################################
 ### FUNCTIONS : All major functions declared here ###
 #####################################################
@@ -20,13 +44,45 @@ function log_filter(filter_element) {
 	}
 
 	// Loop through each panel and check for value
+
 	jQuery('.log-panel').each(function() {
-
+		
 		// Check if filter attribute available				
-		if (jQuery(this).attr('data-bkurl')) {
+		if (jQuery(this).attr('data-bkurl') || jQuery(this).attr('data-bkurl-decode')) {
 
-			// Check if filter value found
-			if (jQuery(this).attr('data-bkurl').toLowerCase().indexOf(filter_value) === -1) {
+			var found = false;
+
+			// Check if filter value found			
+			if (jQuery(this).attr('data-bkurl')) {
+				
+				if (jQuery(this).attr('data-bkurl').toLowerCase().indexOf(filter_value) > -1) {
+
+					var found = true;
+
+				}
+
+			}
+
+			if (jQuery(this).attr('data-bkurl-decode')) {
+				
+				if (jQuery(this).attr('data-bkurl-decode').toLowerCase().indexOf(filter_value) > -1) {
+
+					var found = true;
+
+				}
+
+			}
+
+			if (found) {
+
+				// If found then keep
+				jQuery(this).css('display', ''); // show this one
+
+				jQuery(this).children().each(function() {
+					this.style.display = ""; // show children next					
+				})
+
+			} else {
 
 				// If not found hide
 				jQuery(this).css('display', 'none'); // hide this one
@@ -35,15 +91,7 @@ function log_filter(filter_element) {
 					this.style.display = "none"; // hide children next					
 				})
 
-			} else {
-
-				// If found then keep
-
-				jQuery(this).css('display', ''); // show this one
-
-				jQuery(this).children().each(function() {
-					this.style.display = ""; // show children next					
-				})
+				
 			}
 
 
@@ -56,9 +104,10 @@ function log_filter(filter_element) {
 				this.style.display = "none"; // hide children
 			})
 
-		}
+		} 
 
 	})
+
 }
 
 // FUNCTION : Log Clear
@@ -114,6 +163,8 @@ bk_whitelist.push("http://tags.bluekai.com");
 bk_whitelist.push("https://tags.bluekai.com");
 bk_whitelist.push("http://ptags.bluekai.com");
 bk_whitelist.push("https://ptags.bluekai.com");
+bk_whitelist.push("https://stags.bluekai.com");
+bk_whitelist.push("https://pstags.bluekai.com");
 
 // LOG EACH NETWORK REQUEST TO THE WINDOW
 chrome.devtools.network.onRequestFinished.addListener(function(request) {
@@ -252,6 +303,7 @@ chrome.devtools.network.onRequestFinished.addListener(function(request) {
 		parent_div = document.createElement('div');
 		jQuery(parent_div).addClass("panel panel-default log-panel");
 		jQuery(parent_div).attr("data-bkurl", bkurl);
+		jQuery(parent_div).attr("data-bkurl-decode", decodeURI(decodeURI(bkurl)));
 		jQuery("#request-table").append(parent_div); // add to above
 
 
@@ -387,69 +439,69 @@ chrome.devtools.network.onRequestFinished.addListener(function(request) {
 
 		}
 
-		default_generator("Request URL", bkurl, default_table_body,true);
-	//}
+		default_generator("Request URL", bkurl, default_table_body, true);
+		//}
 
 
-	// Add phint table (if required)
-	if (phint_table_required) {
+		// Add phint table (if required)
+		if (phint_table_required) {
 
-		phint_table = document.createElement('table'); // Create Phint Table
-		jQuery(phint_table).addClass("table table-striped table-bordered");
-		jQuery(phint_table).attr("cellspacing", "0");
-		jQuery(phint_table).attr("width", "100%");
-		jQuery(panel_bottom).append(phint_table); // add to above
+			phint_table = document.createElement('table'); // Create Phint Table
+			jQuery(phint_table).addClass("table table-striped table-bordered");
+			jQuery(phint_table).attr("cellspacing", "0");
+			jQuery(phint_table).attr("width", "100%");
+			jQuery(panel_bottom).append(phint_table); // add to above
 
-		phint_table_head = document.createElement('thead'); // Create table head
-		jQuery(phint_table).append(phint_table_head); // add to above
+			phint_table_head = document.createElement('thead'); // Create table head
+			jQuery(phint_table).append(phint_table_head); // add to above
 
-		phint_table_head_row = document.createElement('tr'); // Create table column row
-		jQuery(phint_table_head).append(phint_table_head_row); // add to above
+			phint_table_head_row = document.createElement('tr'); // Create table column row
+			jQuery(phint_table_head).append(phint_table_head_row); // add to above
 
-		phint_table_head_phint_name = document.createElement('th'); // Create table columns
-		jQuery(phint_table_head_phint_name).html("Phint Name");
-		jQuery(phint_table_head_row).append(phint_table_head_phint_name); // add to above
+			phint_table_head_phint_name = document.createElement('th'); // Create table columns
+			jQuery(phint_table_head_phint_name).html("Phint Name");
+			jQuery(phint_table_head_row).append(phint_table_head_phint_name); // add to above
 
-		phint_table_head_phint_value = document.createElement('th'); // Create table columns
-		jQuery(phint_table_head_phint_value).html("Phint Value");
-		jQuery(phint_table_head_row).append(phint_table_head_phint_value); // add to above
+			phint_table_head_phint_value = document.createElement('th'); // Create table columns
+			jQuery(phint_table_head_phint_value).html("Phint Value");
+			jQuery(phint_table_head_row).append(phint_table_head_phint_value); // add to above
 
-		phint_table_body = document.createElement('tbody'); // Create table body
-		jQuery(phint_table).append(phint_table_body); // add to above
+			phint_table_body = document.createElement('tbody'); // Create table body
+			jQuery(phint_table).append(phint_table_body); // add to above
 
-		// FUNCTION : Phint generator	
+			// FUNCTION : Phint generator	
 
-		// Loop through default phints and create rows
-		var phint_generator = function(phint_data, append_to_object, phint_type) {
+			// Loop through default phints and create rows
+			var phint_generator = function(phint_data, append_to_object, phint_type) {
 
-			for (var i = 0; i < phint_data.length; i++) {
+				for (var i = 0; i < phint_data.length; i++) {
 
-				var phint_name = phint_data[i].name;
-				var phint_value = phint_data[i].value;
+					var phint_name = phint_data[i].name;
+					var phint_value = phint_data[i].value;
 
-				var row = document.createElement('tr'); // Create row
-				if (phint_type === "default") {
-					jQuery(row).addClass("warning");
+					var row = document.createElement('tr'); // Create row
+					if (phint_type === "default") {
+						jQuery(row).addClass("warning");
+					}
+					jQuery(append_to_object).append(row); // add to above
+
+					var name = document.createElement('td'); // Create phint name cell
+					jQuery(name).html(phint_name);
+					jQuery(row).append(name); // add to above
+
+					var value = document.createElement('td'); // Create phint value cell
+					jQuery(value).html(phint_value);
+					jQuery(row).append(value); // add to above
+
 				}
-				jQuery(append_to_object).append(row); // add to above
-
-				var name = document.createElement('td'); // Create phint name cell
-				jQuery(name).html(phint_name);
-				jQuery(row).append(name); // add to above
-
-				var value = document.createElement('td'); // Create phint value cell
-				jQuery(value).html(phint_value);
-				jQuery(row).append(value); // add to above
-
 			}
+
+			// Add phint rows
+			phint_generator(phints_default, phint_table_body, "default");
+			phint_generator(phints_custom, phint_table_body, "custom");
+
 		}
 
-		// Add phint rows
-		phint_generator(phints_default, phint_table_body, "default");
-		phint_generator(phints_custom, phint_table_body, "custom");
-
 	}
-
-}
 
 });
