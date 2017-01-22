@@ -457,7 +457,9 @@ chrome.devtools.network.onRequestFinished.addListener(function(request) {
 
 				for (var j = 0; j < csv.headers.length; j++) {
 
-					if (phint_name === csv.headers[j]) {
+					header_name = csv.headers[j].replace(/phint : /g, "");
+
+					if (phint_name === header_name) {
 
 						var column_found = true;
 						var column_id = j; // note column ID
@@ -469,7 +471,7 @@ chrome.devtools.network.onRequestFinished.addListener(function(request) {
 
 				if (typeof column_found === "undefined") {
 
-					window.csv.headers.push(phint_name); // push in column
+					window.csv.headers.push("phint : "+phint_name); // push in column
 					column_id = csv.headers.length - 1; // note column ID		
 
 				}
@@ -492,7 +494,9 @@ chrome.devtools.network.onRequestFinished.addListener(function(request) {
 
 				for (var j = 0; j < csv.headers.length; j++) {
 
-					if (phint_name === csv.headers[j]) {
+					header_name = csv.headers[j].replace(/phint : /g, "");
+
+					if (phint_name === header_name) {
 
 						var column_found = true;
 						var column_id = j; // note column ID						
@@ -504,7 +508,7 @@ chrome.devtools.network.onRequestFinished.addListener(function(request) {
 
 				if (typeof column_found === "undefined") {
 
-					window.csv.headers.push(phint_name); // push in column
+					window.csv.headers.push("phint : "+phint_name); // push in column
 					column_id = csv.headers.length - 1; // note column ID		
 
 				}

@@ -21,6 +21,10 @@ If you see any issues with this please log an ["issue"](https://github.com/bluek
 
 ## Versioning ##
 
+### 1.3 ###
+
+- Adding 'phint : ' prefix to phint column headers in CSV download
+
 ### 1.2 ###
 
 - Adding Log Preserve Switch
