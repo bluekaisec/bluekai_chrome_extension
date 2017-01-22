@@ -262,15 +262,12 @@ th {
 }
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url('fonts/glyphicons-halflings-regular.eot');
-  src: url('fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
-  url('fonts/glyphicons-halflings-regular.woff') format('woff'),
-  url('fonts/glyphicons-halflings-regular.ttf') format('truetype'),
-  url('fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
+
+  src: url('../fonts/glyphicons-halflings-regular.eot');
+  src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
 .glyphicon {
   position: relative;
-  padding: 2.5px 0px;
   top: 1px;
   display: inline-block;
   font-family: 'Glyphicons Halflings';
@@ -3944,8 +3941,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .input-group-btn:last-child > .dropdown-toggle,
 .input-group-btn:first-child > .btn:not(:first-child),
 .input-group-btn:first-child > .btn-group:not(:first-child) > .btn {
-  // border-top-left-radius: 0; // roshan: customised;
-  // border-bottom-left-radius: 0; // roshan: customised;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 .input-group-addon:last-child {
   border-left: 0;

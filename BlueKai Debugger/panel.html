@@ -2,10 +2,12 @@
     <head>
         <link rel="stylesheet" href="libraries/bootstrap/css/bootstrap-modified.css">
         <link rel="stylesheet" href="libraries/bootstrap/css/bootstrap-theme-modified.css">
+        <link rel="stylesheet" href="libraries/bootstrap/css/bootstrap-toggle.min.css">
         <script src="libraries/jquery/jquery-3.1.1.min.js" ></script>
-        <script src="libraries/bootstrap/js/bootstrap.min.js" ></script>
+        <script src="libraries/bootstrap/js/bootstrap.js" ></script>
+        <script src="libraries/bootstrap/js/bootstrap-toggle.min.js"></script>
     </head>
-    <body>
+    <body>        
         <!-- Filters : START -->
         <nav class="navbar navbar-default navbar-fixed-top">
             
@@ -14,23 +16,39 @@
                 <div class="input-group">
                     <span class="input-group-addon" id="Clear Logs">Filter</span> <!-- id was "sizing-addon2" -->
                     <input type="text" id="log_filter" class="form-control" placeholder="Enter key to filter request URL by..." aria-describedby="sizing-addon2">
-
+                    <div class="input-group-btn">
+                        
+                    </div>
+                    <div class="input-group-btn">
+                        <input data-width="140" type="checkbox" id="logging_toggle" data-toggle="toggle" data-on="Preserving Logs" data-off="Not Preserving">
+                    </div>
+                    <div class="input-group-btn">
+                        <!--spacing-->
+                    </div>
                     
                     <div class="input-group-btn">
-                    
+                        
                         <button id="log-clear" type="button" class="btn btn-default">Clear Logs</button>
-                    
-                    </div>                     
-
-                </div>                
-
+                        
+                    </div>
+                    <div class="input-group-btn">
+                        <!--spacing-->
+                    </div>
+                    <div class="input-group-btn">
+                        
+                        <button id="csv_download" type="button" class="btn btn-default" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
+                        </button>
+                        
+                    </div>
+                </div>
             </div>
             
         </nav>
+        
         <!-- Filters : END -->
         <!-- Logs : START -->
-        <!-- NOTES : NEED TO FIX THIS WITH CSS -->        
-
+        <!-- NOTES : NEED TO FIX THIS WITH CSS -->
         <div class="panel-group" id="request-table"></div>
         <!-- Logs : END -->
         
@@ -38,6 +56,6 @@
         <script src="js/panel.js"></script>
         <!-- Run Panel Script : END -->
         
-        <div id="post-table"></div>
+        <div id="post-table"></div>                
     </body>
 </html>

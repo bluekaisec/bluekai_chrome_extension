@@ -6,17 +6,24 @@
 
 // Standard Google Universal Analytics code
 
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(function(i, s, o, g, r, a, m) {
+	i['GoogleAnalyticsObject'] = r;
+	i[r] = i[r] || function() {
 
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		(i[r].q = i[r].q || []).push(arguments)
+	}, i[r].l = 1 * new Date();
+	a = s.createElement(o),
 
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		m = s.getElementsByTagName(o)[0];
+	a.async = 1;
+	a.src = g;
+	m.parentNode.insertBefore(a, m)
 
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga'); // Note: https protocol here
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga'); // Note: https protocol here
 
 ga('create', 'UA-90569841-1', 'auto');
 
-ga('set', 'checkProtocolTask', function(){}); // Removes failing protocol check. @see: http://stackoverflow.com/a/22152353/1958200
+ga('set', 'checkProtocolTask', function() {}); // Removes failing protocol check. @see: http://stackoverflow.com/a/22152353/1958200
 
 ga('require', 'displayfeatures');
 
@@ -27,6 +34,38 @@ ga('send', 'pageview', '/viewing_bluekai_debugger_extension_tab');
 ### FUNCTIONS : All major functions declared here ###
 #####################################################
 */
+
+// FUNCTION : Date Generator
+function dateGen() {
+	
+	var date = new Date();
+	var day = date.getDate();
+	var month = date.getMonth() +1; //offset
+	var year = date.getFullYear();
+	var hours = date.getHours();
+	var minutes = date.getMinutes();
+	var seconds = date.getSeconds();
+
+	//add 0 if needed
+	function addZero(inputvar) {
+
+		if (inputvar.toString().length === 1) {
+			return "0" + inputvar;
+		} else {
+			return inputvar
+		}
+
+	}
+
+	day = addZero(day);
+	hours = addZero(hours);	
+	month = addZero(month);
+	minutes = addZero(minutes);
+	seconds = addZero(seconds);
+
+	return year + "-" + month + "-" + day + "_" + hours + "-" + minutes + "-" + seconds;
+
+}
 
 // FUNCTION : Log Filter
 
@@ -46,7 +85,7 @@ function log_filter(filter_element) {
 	// Loop through each panel and check for value
 
 	jQuery('.log-panel').each(function() {
-		
+
 		// Check if filter attribute available				
 		if (jQuery(this).attr('data-bkurl') || jQuery(this).attr('data-bkurl-decode')) {
 
@@ -54,7 +93,7 @@ function log_filter(filter_element) {
 
 			// Check if filter value found			
 			if (jQuery(this).attr('data-bkurl')) {
-				
+
 				if (jQuery(this).attr('data-bkurl').toLowerCase().indexOf(filter_value) > -1) {
 
 					var found = true;
@@ -64,7 +103,7 @@ function log_filter(filter_element) {
 			}
 
 			if (jQuery(this).attr('data-bkurl-decode')) {
-				
+
 				if (jQuery(this).attr('data-bkurl-decode').toLowerCase().indexOf(filter_value) > -1) {
 
 					var found = true;
@@ -91,7 +130,7 @@ function log_filter(filter_element) {
 					this.style.display = "none"; // hide children next					
 				})
 
-				
+
 			}
 
 
@@ -104,7 +143,7 @@ function log_filter(filter_element) {
 				this.style.display = "none"; // hide children
 			})
 
-		} 
+		}
 
 	})
 
@@ -118,8 +157,13 @@ Clear all logs
 
 function clear_logs() {
 
+	// Kill HTML table
 	jQuery("#request-table").empty();
 	window.request_number = 0;
+
+	// Kill CSV data for export
+	window.csv.rows = [];
+	window.csv.headers = window.csv.default_headers.slice(0);
 
 }
 
@@ -139,6 +183,60 @@ function insertAfter(newElement, targetElement) {
 	}
 }
 
+// FUNCTION : CSV EXPORTER
+
+function downloadCSV() {
+
+	// config
+	var name = "BlueKai_debugger_log_" + dateGen();
+	var filename = name + ".csv";
+	var number_of_columns = window.csv.headers.length;
+
+	window.csv.export = [];
+	window.csv.export.push(window.csv.headers); // Push in headers
+
+	// Push in rows
+	for (var i = 0; i < window.csv.rows.length; i++) {
+
+		// row columns
+		var row_columns = window.csv.rows[i].length;
+
+		// Add missing items in array (to ensure equal length)
+		if(row_columns < number_of_columns){
+
+			var row = window.csv.rows[i];			
+
+			for (var j = row_columns; j < number_of_columns; j++) {
+				
+				row[j] = ""; // add in missing elements
+				
+			}
+			
+
+		} else {
+
+			var row = window.csv.rows[i]
+		}
+
+		window.csv.export.push(row); // Push in row
+
+	}
+
+	var csv = "";
+	window.csv.export.forEach(function(row) {
+
+		csv += '"' + row.join('","') + '"';
+		csv += "\n";
+	});
+
+
+	link = document.createElement('a');
+	link.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURI(csv));
+	link.setAttribute('target', '_blank,');
+	link.setAttribute('download', filename);
+	link.click();
+}
+
 /*
 ############################################
 ### CODE : All running code defined here ###
@@ -155,6 +253,26 @@ jQuery('#log-clear').mousedown(function() {
 	clear_logs();
 })
 
+// CSV DOWNLOADER : ADD EVENT LISTENER TO ALLOW CSV DOWNLOAD
+jQuery('#csv_download').mousedown(function() {
+	downloadCSV();
+})
+
+
+// LOG PRESERVER : Clear HTML on page change
+chrome.devtools.network.onNavigated.addListener(function(event_data) {
+
+	var checked_status = jQuery('#logging_toggle').prop('checked'); // Check toggle status
+
+	if (!checked_status) {
+
+		clear_logs(); // Clear logs
+
+	}
+
+
+});
+
 // CONFIG
 
 // List all possible URLs bluekai requests can begin with
@@ -165,6 +283,16 @@ bk_whitelist.push("http://ptags.bluekai.com");
 bk_whitelist.push("https://ptags.bluekai.com");
 bk_whitelist.push("https://stags.bluekai.com");
 bk_whitelist.push("https://pstags.bluekai.com");
+
+// CSV EXPORT VARS
+
+// config
+window.csv = {};
+window.csv.rows = [];
+window.csv.default_headers = ["Request Number", "Site ID", "BlueKai Cookie ID", "Request Type", "Limit", "Request URL", "Phint Count : Default", "Phint Count : Custom"];
+window.csv.headers = window.csv.default_headers.slice(0);
+
+
 
 // LOG EACH NETWORK REQUEST TO THE WINDOW
 chrome.devtools.network.onRequestFinished.addListener(function(request) {
@@ -207,8 +335,21 @@ chrome.devtools.network.onRequestFinished.addListener(function(request) {
 		var limit_number = "not set";
 		var site_id = "not set";
 		var bkurl = request_url;
+		var bluekai_cookie = "NO COOKIE (request may be cached image)";
 		window.request_number = window.request_number || 0;
 		request_number++;
+
+		// CALCULATE BK DATA : Get bluekai cookie value
+
+		for (var i = 0; i < request.request.cookies.length; i++) {
+
+			if (request.request.cookies[i].name === "bku") {
+
+				var bluekai_cookie = request.request.cookies[i].value;
+
+			}
+
+		}
 
 		// CALCULATE BK DATA : Pull Site ID
 		if (request_url.indexOf('/site/') > -1) {
@@ -248,9 +389,13 @@ chrome.devtools.network.onRequestFinished.addListener(function(request) {
 
 
 					if (phint_object.value) {
+
 						phints_reserved.push(phint_object); // push into custom array
+
 					}
+
 				} else {
+
 					phints_custom.push(phint_object);
 				} // push into custom array
 
@@ -274,10 +419,7 @@ chrome.devtools.network.onRequestFinished.addListener(function(request) {
 
 		}
 
-		// BUILD HTML TABLE
-
-		// BUILD HTML TABLE : MAPPING OF REQUIRED VARS
-
+		// MAP DATA VARS
 		var bkurl = (bkurl) ? bkurl : "Not Set";
 		var log_id = (request_number) ? request_number : "Not Set";
 		var site_id = (site_id) ? site_id : "Not Set";
@@ -287,6 +429,107 @@ chrome.devtools.network.onRequestFinished.addListener(function(request) {
 		var phints_custom_count = phints_custom.length;
 		var phints_default = phints_reserved;
 		var phints_custom = phints_custom;
+
+		// CSV BUILD
+		//"Request Number","Site ID","BlueKai Cookie ID","Request Type","Limit","Request URL","Phint Count : Default","Phint Count : Custom"
+		var row = [];
+
+		// Push in standard data
+		row.push(log_id);
+		row.push(site_id);
+		row.push(bluekai_cookie);
+		row.push(request_type);
+		row.push(limit);
+		row.push(bkurl);
+		row.push(phints_default_count);
+		row.push(phints_custom_count);
+
+		// Push in phints
+
+		// Loop through phints : default
+		for (var i = 0; i < phints_default.length; i++) {
+
+			var phint_name = phints_default[i].name;
+			var phint_value = phints_default[i].value;
+
+			// Find column number (push name to header row if not there)
+			if (phint_name) {
+
+				for (var j = 0; j < csv.headers.length; j++) {
+
+					if (phint_name === csv.headers[j]) {
+
+						var column_found = true;
+						var column_id = j; // note column ID
+						break;						
+
+					}
+
+				}
+
+				if (typeof column_found === "undefined") {
+
+					window.csv.headers.push(phint_name); // push in column
+					column_id = csv.headers.length - 1; // note column ID		
+
+				}
+
+				// Push in phint var
+				row[column_id] = phint_value;
+				var column_found = undefined; // reset to undefined for next loop
+
+			}
+		}
+
+		// Loop through phints : custom
+		for (var i = 0; i < phints_custom.length; i++) {
+
+			var phint_name = phints_custom[i].name;
+			var phint_value = phints_custom[i].value;
+
+			// Find column number (push name to header row if not there)
+			if (phint_name) {
+
+				for (var j = 0; j < csv.headers.length; j++) {
+
+					if (phint_name === csv.headers[j]) {
+
+						var column_found = true;
+						var column_id = j; // note column ID						
+						break;
+
+					}
+
+				}
+
+				if (typeof column_found === "undefined") {
+
+					window.csv.headers.push(phint_name); // push in column
+					column_id = csv.headers.length - 1; // note column ID		
+
+				}
+
+				// Push in phint var
+				row[column_id] = phint_value;
+				var column_found = undefined; // reset to undefined for next loop
+
+			}
+		}
+
+		// Loop through rows and replace "undefined" with ""
+		for (var i = 0; i < row.length; i++) {
+
+			if (typeof row[i] === "undefined") {
+			
+				row[i] = "";
+
+			}
+
+		}
+
+		window.csv.rows.push(row); // push data into CSV rows
+
+		// BUILD HTML TABLE
 
 		// BUILD HTML TABLE : CALCULATIONS
 
@@ -440,6 +683,7 @@ chrome.devtools.network.onRequestFinished.addListener(function(request) {
 		}
 
 		default_generator("Request URL", bkurl, default_table_body, true);
+		default_generator("BlueKai Cookie ID", bluekai_cookie, default_table_body, true);
 		//}
 
 

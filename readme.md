@@ -5,36 +5,26 @@ Available in [Chrome Web Store](https://chrome.google.com/webstore/detail/unoffi
 
 ## Screenshot ##
 
-![alt tag](https://s24.postimg.org/5w8b55q5x/Screen_Shot_2017_01_15_at_22_04_38.png)
+The Debugger
+![alt tag](https://s28.postimg.org/ucvpihy99/Screen_Shot_2017_01_22_at_22_11_24.png)
 
-## Instructions ##
+CSV Download Example
+![alt tag](https://s24.postimg.org/phj377sut/Screen_Shot_2017_01_22_at_22_13_36.png)
 
-### Easy Install ###
+## Installation ##
 
-- Download [Chrome Extension](BlueKai%20Debugger.crx) (Right-Click "Save Link As...")
-- Copy and Paste to ["chrome://extensions/"](chrome://extensions//) in your browser window
-- Drag the "BlueKai Debugger.crx" into the window and install:
-
-![alt tag](https://s24.postimg.org/63f33c0px/Screen_Shot_2017_01_08_at_22_10_39.png)
-
-- You're installed now!
-
-### Developer Install (if the above doesn't work) ###
-
-- Turn on [Developer Mode](https://developer.chrome.com/extensions/faq#faq-dev-01) in your Chrome Browser 
-- Download [BlueKai Debugger Folder](BlueKai%20Debugger)
-- Open ["chrome://extensions/"](chrome://extensions//) in your browser window
-- Drag and drop the "BlueKai Debugger" Folder into the extensions
-
-![alt tag](https://s30.postimg.org/snsyizc9d/Screen_Shot_2017_01_15_at_17_49_57.png)
-
-- You're installed now!
+- Download and install via [Chrome Web Store](https://chrome.google.com/webstore/detail/unofficial-bluekai-debugg/bgelefkbpjoagjgcefpboeobpepncpan)
 
 ## Issue Logging ##
 
 If you see any issues with this please log an ["issue"](https://github.com/bluekaisec/bluekai_chrome_extension/issues) in this repo and I will add to it (this includes enhancements)
 
 ## Versioning ##
+
+### 1.2 ###
+
+- Adding Log Preserve Switch
+- Adding CSV Downloader
 
 ### 1.1 ###
 
