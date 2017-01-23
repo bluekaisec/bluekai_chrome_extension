@@ -21,6 +21,11 @@ If you see any issues with this please log an ["issue"](https://github.com/bluek
 
 ## Versioning ##
 
+### 1.4 ###
+
+- Adding current URL into CSV export
+
+
 ### 1.3 ###
 
 - Adding 'phint : ' prefix to phint column headers in CSV download

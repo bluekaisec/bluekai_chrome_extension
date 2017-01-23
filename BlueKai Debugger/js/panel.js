@@ -262,6 +262,8 @@ jQuery('#csv_download').mousedown(function() {
 // LOG PRESERVER : Clear HTML on page change
 chrome.devtools.network.onNavigated.addListener(function(event_data) {
 
+	window.current_url = event_data;
+
 	var checked_status = jQuery('#logging_toggle').prop('checked'); // Check toggle status
 
 	if (!checked_status) {
@@ -289,7 +291,7 @@ bk_whitelist.push("https://pstags.bluekai.com");
 // config
 window.csv = {};
 window.csv.rows = [];
-window.csv.default_headers = ["Request Number", "Site ID", "BlueKai Cookie ID", "Request Type", "Limit", "Request URL", "Phint Count : Default", "Phint Count : Custom"];
+window.csv.default_headers = ["Request Number", "Site ID", "Current URL","BlueKai Cookie ID", "Request Type", "Limit", "Request URL", "Phint Count : Default", "Phint Count : Custom"];
 window.csv.headers = window.csv.default_headers.slice(0);
 
 
@@ -437,6 +439,7 @@ chrome.devtools.network.onRequestFinished.addListener(function(request) {
 		// Push in standard data
 		row.push(log_id);
 		row.push(site_id);
+		row.push(window.current_url);
 		row.push(bluekai_cookie);
 		row.push(request_type);
 		row.push(limit);
